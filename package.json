@@ -1,0 +1,72 @@
+{
+  "name": "@curium.rocks/grpc-transceiver",
+  "version": "0.1.0",
+  "description": "A transceiver for the emitter network to bridge maestros",
+  "main": "build/grpcTransceiver.js",
+  "scripts": {
+    "test": "nyc mocha --require ts-node/register --require source-map-support/register --recursive 'test/**/*.ts'",
+    "build": "node_modules/typescript/bin/tsc --project ./",
+    "lint": "eslint src --ext .ts",
+    "clean": "rm -fr build",
+    "prepare": "npm run build",
+    "doc": "typedoc src/lib.ts",
+    "sonarscan": "sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.organization=curium-rocks -Dsonar.projectKey=curium-rocks_maestro -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARQUBE_KEY -Dsonar.javascript.lcov.reportPath=coverage/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/curium-rocks/grpc-transceiver.git"
+  },
+  "keywords": [
+    "grpc",
+    "transceiver",
+    "iemitter",
+    "iot"
+  ],
+  "devDependencies": {
+    "@curium.rocks/json-chronicler": "^0.1.1-6",
+    "@curium.rocks/ping-pong-emitter": "^0.1.1-11",
+    "@curium.rocks/scripted-emitter": "^0.1.1-1",
+    "@types/chai": "^4.2.21",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.3.1",
+    "@types/winston": "^2.4.4",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "chai": "^4.3.4",
+    "eslint": "^7.30.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "mocha": "^9.0.2",
+    "nyc": "^15.1.0",
+    "sonarqube-scanner": "^2.8.1",
+    "source-map-support": "^0.5.19",
+    "ts-node": "^10.1.0",
+    "typedoc": "^0.21.4",
+    "typescript": "^4.3.5"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "test/**",
+      "docs/**",
+      "coverage/**",
+      ".eslintrc.js",
+      "**/*.d.ts"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "all": true
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/curium-rocks/grpc-transceiver/issues"
+  },
+  "homepage": "https://github.com/curium-rocks/grpc-transceiver#readme"
+}
