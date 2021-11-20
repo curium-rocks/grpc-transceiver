@@ -71,24 +71,30 @@ describe( 'GrpcTransceiver', function() {
             const transceiver:GrpcTransceiver = await defaultFactory.buildTransceiver(defaultOptions);
             const emitter =  new PingPongEmitter('test-ping-pong', 'test-ping-pong', 'test-ping-pong', 350);
             try {
-            const emitters = transceiver.getEmitters();
-            expect(emitters).to.be.an('array');
-            expect(emitters.length).to.be.eq(0);
-            transceiver.addDataEmitter(emitter);
-            expect(transceiver.getEmitters().length).to.be.eq(1);
-            expect(transceiver.getEmitters()[0]).to.be.eq(emitter);
+                const emitters = transceiver.getEmitters();
+                expect(emitters).to.be.an('array');
+                expect(emitters.length).to.be.eq(0);
+                await transceiver.addDataEmitter(emitter);
+                expect(transceiver.getEmitters().length).to.be.eq(1);
+                expect(transceiver.getEmitters()[0]).to.be.eq(emitter);
             } finally {
                 emitter.dispose();
                 await transceiver.disposeAsync();
             }
         });
-        it('Should return the set of added emitters', function() {
-            expect(false).to.be.true;
-        });
     });
-    describe('getIndividualEmitter()', function() {
-        it('Should fetch the specified emitter', function() {
-            expect(false).to.be.true;
+    describe('getIndividualEmitter()', async function() {
+        it('Should fetch the specified emitter', async function() {
+            const transceiver:GrpcTransceiver = await defaultFactory.buildTransceiver(defaultOptions);
+            const emitter =  new PingPongEmitter('test-ping-pong', 'test-ping-pong', 'test-ping-pong', 350);
+            try {
+                await transceiver.addDataEmitter(emitter);
+                const retEmitter = transceiver.getIndividualEmitter(emitter.id);
+                expect(emitter).to.be.eq(retEmitter);
+            } finally {
+                emitter.dispose();
+                await transceiver.disposeAsync();
+            }
         });
     })
 });

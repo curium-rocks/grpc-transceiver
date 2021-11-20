@@ -20,6 +20,8 @@ export abstract class GrpcTransceiver implements ICompoundDataEmitter, IDisposab
      */
     description: string;
 
+    private readonly _dataEmitters: Set<IDataEmitter> = new Set(); 
+
     /**
      * 
      * @param {ISettings} settings 
@@ -33,31 +35,43 @@ export abstract class GrpcTransceiver implements ICompoundDataEmitter, IDisposab
     /**
      * 
      */
-    disposeAsync(): Promise<void> {
-        throw new Error('Method not implemented.');
+    async disposeAsync(): Promise<void> {
+        return Promise.resolve();
     }
 
     /**
      * 
      * @param {string} id 
+     * @return {Promise<IDataEmitter>}
      */
     getIndividualEmitter(id: string): IDataEmitter {
-        throw new Error('Method not implemented.');
+        for(const emitter of this._dataEmitters) {
+           if(emitter.id == id) {
+                return emitter;
+            }
+        }
+        throw new Error('Emitter not found');
     }
     
     /**
-     * 
+     * @return {Iterable<IDataEmitter>}
      */
     getEmitters(): IDataEmitter[] {
-        throw new Error('Method not implemented.');
+        return Array.from(this._dataEmitters);
     }
     
     /**
      * 
      * @param {IDataEmitter} emitter 
+     * @return {Promise<void>}
      */
     addDataEmitter(emitter: IDataEmitter): Promise<void> {
-        throw new Error('Method not implemented.');
+        if(!this._dataEmitters.has(emitter)) {
+            this._dataEmitters.add(emitter);
+            return Promise.resolve();
+        } else {
+            return Promise.resolve();
+        }
     }
 
     /**
