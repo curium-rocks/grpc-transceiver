@@ -10,7 +10,7 @@
     "clean": "rm -fr build",
     "prepare": "npm run build",
     "doc": "typedoc src/lib.ts",
-    "sonarscan": "sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.organization=curium-rocks -Dsonar.projectKey=curium-rocks_maestro -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARQUBE_KEY -Dsonar.javascript.lcov.reportPath=coverage/"
+    "sonarscan": "sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.organization=curium-rocks -Dsonar.projectKey=curium-rocks_grpc-transceiver -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONARQUBE_KEY -Dsonar.javascript.lcov.reportPath=coverage/"
   },
   "repository": {
     "type": "git",
@@ -68,5 +68,9 @@
   "bugs": {
     "url": "https://github.com/curium-rocks/grpc-transceiver/issues"
   },
-  "homepage": "https://github.com/curium-rocks/grpc-transceiver#readme"
+  "homepage": "https://github.com/curium-rocks/grpc-transceiver#readme",
+  "dependencies": {
+    "@curium.rocks/data-emitter-base": "^0.1.1-alpha.41",
+    "@grpc/grpc-js": "^1.4.4"
+  }
 }

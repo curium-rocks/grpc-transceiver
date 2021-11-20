@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package stream;
+
+import "google/protobuf/timestamp.proto";
+
+message EmitterDescription {
+    int32 version = 1;
+    string type = 2;
+    string id = 3;
+    string name = 4;
+    string description = 5;
+    bytes emitterProperties = 6;
+}
+
+message DataEvent  {
+    int version = 1;
+    Emitter emitter = 2;
+    google.protobuf.Timestamp timeStamp = 3;
+    bytes data = 4;
+    bytes metadata = 5;
+
+}
+
+message StatusEvent {
+    int version = 1;
+    Emitter emitter = 2;
+    google.protobuf.Timestamp timeStamp = 3;
+    bool connected = 4;
+    bool bit = 5;
+}
+
+message CommandResult {
+    int version = 1;
+    uuid commandId = 2;
+    google.protobuf.Timestamp timeStamp = 3;
+    bool result = 4;
+    bytes data = 5;
+}
+
+message Heartbeat {
+    int version = 1;
+    uuid groupId = 2;
+    google.protobuf.Timestamp timeStamp = 3;
+}
+
+message CommandRequest {
+    int version = 1;
+    uuid commandId = 2;
+    google.protobuf.Timestamp timeStamp = 3;
+    bytes data = 4;
+}
+
+
+service Transceiver {
+    rpc SendCommandResult(CommandResult) returns (bool);
+    rpc SendData(DataEvent) returns (bool);
+    rpc SendStatus(StatusEvent) returns (bool);
+    rpc Stream (Heartbeat) returns (Stream CommandRequest) ()
+}
