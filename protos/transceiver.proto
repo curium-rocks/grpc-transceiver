@@ -1,3 +1,7 @@
+syntax = "proto3";
+
+package stream;
+
 import "google/protobuf/timestamp.proto";
 
 message EmitterDescription {
@@ -34,10 +38,23 @@ message CommandResult {
     bytes data = 5;
 }
 
+message Heartbeat {
+    int version = 1;
+    uuid groupId = 2;
+    google.protobuf.Timestamp timeStamp = 3;
+}
+
+message CommandRequest {
+    int version = 1;
+    uuid commandId = 2;
+    google.protobuf.Timestamp timeStamp = 3;
+    bytes data = 4;
+}
+
 
 service Transceiver {
     rpc SendCommandResult(CommandResult) returns (bool);
     rpc SendData(DataEvent) returns (bool);
     rpc SendStatus(StatusEvent) returns (bool);
-
+    rpc Stream (Heartbeat) returns (Stream CommandRequest) ()
 }
