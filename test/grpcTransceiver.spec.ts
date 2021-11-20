@@ -1,5 +1,20 @@
 import { describe, it} from 'mocha';
 import { expect } from 'chai';
+import { ISettings } from '@curium.rocks/data-emitter-base';
+import { GrpcTransceiver } from '../src/grpcTransceiver';
+import { GrpcTransceiverFactory } from '../src/grpcTransceiverFactory';
+import { PingPongEmitter } from '@curium.rocks/ping-pong-emitter';
+import exp from 'constants';
+
+const defaultOptions : ISettings = {
+    id: 'TEST_ID',
+    name: 'TEST_NAME',
+    description: 'TEST_DESCRIPTION',
+    additional: {}
+}
+
+
+const defaultFactory = new GrpcTransceiverFactory();
 
 describe( 'GrpcTransceiver', function() {
     describe( 'addDataEmitter()', function() {
@@ -51,4 +66,29 @@ describe( 'GrpcTransceiver', function() {
             expect(false).to.be.true;
         });
     });
+    describe('getEmitters()', async function() {
+        it('Should return a list of emitters', async function() {
+            const transceiver:GrpcTransceiver = await defaultFactory.buildTransceiver(defaultOptions);
+            const emitter =  new PingPongEmitter('test-ping-pong', 'test-ping-pong', 'test-ping-pong', 350);
+            try {
+            const emitters = transceiver.getEmitters();
+            expect(emitters).to.be.an('array');
+            expect(emitters.length).to.be.eq(0);
+            transceiver.addDataEmitter(emitter);
+            expect(transceiver.getEmitters().length).to.be.eq(1);
+            expect(transceiver.getEmitters()[0]).to.be.eq(emitter);
+            } finally {
+                emitter.dispose();
+                await transceiver.disposeAsync();
+            }
+        });
+        it('Should return the set of added emitters', function() {
+            expect(false).to.be.true;
+        });
+    });
+    describe('getIndividualEmitter()', function() {
+        it('Should fetch the specified emitter', function() {
+            expect(false).to.be.true;
+        });
+    })
 });

@@ -1,10 +1,10 @@
-import {ICommand, ICompoundDataEmitter, IDataEmitter, IDataEvent, IDataEventListener, IDataEventListenerFunc, IDisposable, IExecutionResult, IFormatSettings, ISettings, IStatusChangeListener, IStatusChangeListenerFunc, IStatusEvent} from '@curium.rocks/data-emitter-base';
+import {ICommand, ICompoundDataEmitter, IDataEmitter, IDataEvent, IDataEventListener, IDataEventListenerFunc, IDisposable, IDisposableAsync, IExecutionResult, IFormatSettings, ISettings, IStatusChangeListener, IStatusChangeListenerFunc, IStatusEvent} from '@curium.rocks/data-emitter-base';
 
 
 /**
  * A class that can be used to send and receive data over a gRPC connection.
  */
-export abstract class GrpcTransceiver implements ICompoundDataEmitter  {
+export abstract class GrpcTransceiver implements ICompoundDataEmitter, IDisposableAsync  {
     
     /**
      * 
@@ -32,6 +32,13 @@ export abstract class GrpcTransceiver implements ICompoundDataEmitter  {
 
     /**
      * 
+     */
+    disposeAsync(): Promise<void> {
+        throw new Error('Method not implemented.');
+    }
+
+    /**
+     * 
      * @param {string} id 
      */
     getIndividualEmitter(id: string): IDataEmitter {
@@ -44,6 +51,15 @@ export abstract class GrpcTransceiver implements ICompoundDataEmitter  {
     getEmitters(): IDataEmitter[] {
         throw new Error('Method not implemented.');
     }
+    
+    /**
+     * 
+     * @param {IDataEmitter} emitter 
+     */
+    addDataEmitter(emitter: IDataEmitter): Promise<void> {
+        throw new Error('Method not implemented.');
+    }
+
     /**
      * 
      * @param {IDataEventListener} listener 
@@ -109,13 +125,13 @@ export abstract class GrpcTransceiver implements ICompoundDataEmitter  {
 /**
  * @class GrpcTransceiver
  */
-class GrpcTransceiverClient extends GrpcTransceiver {
+export class GrpcTransceiverClient extends GrpcTransceiver {
 
 }
 
 /**
  * @class GrpcTransceiver
  */
-class GrpcTransceiverServer extends GrpcTransceiver {
+export class GrpcTransceiverServer extends GrpcTransceiver {
 
 }
