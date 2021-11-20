@@ -1,4 +1,6 @@
 import {ICommand, ICompoundDataEmitter, IDataEmitter, IDataEvent, IDataEventListener, IDataEventListenerFunc, IDisposable, IExecutionResult, IFormatSettings, ISettings, IStatusChangeListener, IStatusChangeListenerFunc, IStatusEvent} from '@curium.rocks/data-emitter-base';
+
+
 /**
  * A class that can be used to send and receive data over a gRPC connection.
  */
@@ -17,6 +19,16 @@ export abstract class GrpcTransceiver implements ICompoundDataEmitter  {
      * 
      */
     description: string;
+
+    /**
+     * 
+     * @param {ISettings} settings 
+     */
+    constructor(settings: ISettings) {
+        this.id = settings.id;
+        this.name = settings.name;
+        this.description = settings.description;
+    }
 
     /**
      * 
